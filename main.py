@@ -163,19 +163,25 @@ def count_if_else(lines):
     return if_else_num, if_elseif_else_num
 
 
-file_path = 'c.txt'
+file_path = input()
+rank = int(input())
 with open(file_path) as file_object:
     lines = file_object.readlines()
     text = file_object.read()
-lines = edit_text(lines)
-total_num = count_keyword(lines)
-switch_num, case_num = count_switch(lines)
-if_else_num, if_elseif_else_num = count_if_else(lines)
 
-print('total num: %d' % total_num)
-print('switch num: %d' % switch_num)
-print('case num: ', end='')
-for num in case_num:
-    print(num, end=' ')
-print('\nif-else num: %d' % if_else_num)
-print('if-elseif-else num: %d' % if_elseif_else_num)
+lines = edit_text(lines)
+
+if rank >= 1:
+    total_num = count_keyword(lines)
+    print('total num: %d' % total_num)
+if rank >= 2:
+    switch_num, case_num = count_switch(lines)
+    print('switch num: %d' % switch_num)
+    print('case num: ', end='')
+    for num in case_num:
+        print(num, end=' ')
+if rank >= 3:
+    if_else_num, if_elseif_else_num = count_if_else(lines)
+    print('\nif-else num: %d' % if_else_num)
+if rank >= 4:
+    print('if-elseif-else num: %d' % if_elseif_else_num)
