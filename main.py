@@ -7,7 +7,8 @@ keyword = [
 
 
 def edit_text(lines):
-    for line in lines:
+    notes_flag = False
+    for line in lines[::-1]:
         lines_index = lines.index(line)
         line_str = list(line)
 
@@ -16,15 +17,14 @@ def edit_text(lines):
             del lines[lines_index]
 
         # 删除多行注释
-        # elif '/*' in line:
-        #     index = lines.index(line)
-        #     lines.remove(line)
-        #     for line_temp in lines[index:]:
-        #         if '*/' not in line:
-        #             lines.remove(line)
-        #         else:
-        #             lines.remove(line)
-        #             break
+        elif '*/' in line:
+            notes_flag = True
+            del lines[lines_index]
+        elif '/*' in line:
+            notes_flag = False
+            del lines[lines_index]
+        elif notes_flag is True:
+            del lines[lines_index]
 
         elif '#include' in line or '#define' in line or '#undef' in line or '#ifdef' in line or '#ifndef' in line or '#endif' in line:
             del lines[lines_index]
@@ -64,6 +64,8 @@ def edit_text(lines):
         line_list.append('\n')
         line = ''.join(line_list)
         lines[lines_index] = line
+    for line in lines:
+        print(line)
     return lines
 
 
@@ -117,9 +119,6 @@ def count_if_else(lines):
     for line in lines:
         lines_index = lines.index(line)
         str = line.split(' ')
-        print(if_else_stack, end=' ')
-        print(if_else_num, end=' ')
-        print(if_elseif_else_num)
         if 'else' in str and 'if' in str:
             if_else_stack.append('else if')
         elif 'if' in str:
