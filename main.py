@@ -27,6 +27,7 @@ def edit_text(lines):
             del lines[lines_index]
         elif notes_flag is True:
             del lines[lines_index]
+
         # 删除头文件
         elif '#include' in line or '#define' in line or '#undef' in line \
                 or '#ifdef' in line or '#ifndef' in line or '#endif' in line:
@@ -124,7 +125,6 @@ def count_if_else(lines):
     if_else_num = 0
     if_elseif_else_num = 0
     if_else_stack = []  # 用栈完成匹配
-    if_flag = False     # 判断是否在一个 if 中
     else_if_flag = False    # 是否有 else if
     else_flag = False       # 是否有 else
     for line in lines:
@@ -134,14 +134,13 @@ def count_if_else(lines):
         if 'else' in str and 'if' in str:
             if_else_stack.append('else if')
         elif 'if' in str:
-            if_flag = True
             if_else_stack.append('if')
         elif 'else' in str:
             if_else_stack.append('else')
-        if '{' in str and if_flag is True:
+        if '{' in str:
             if_else_stack.append('{')
         # 当遇到 } 需要出栈，直到匹配到 {
-        if '}' in str and if_flag is True:
+        if '}' in str:
             temp = if_else_stack.pop()
             if temp == '{':
                 continue
